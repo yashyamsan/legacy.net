@@ -39,7 +39,7 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.2
        
       - name: Restore NuGet Packages
-        run: nuget restore /Users/yamsanwy/Desktop/legacy.net/dotnet_legacy-master/WebApplication3.sln
+        run: nuget restore dotnet_legacy-master/WebApplication3.sln
 
       - name: Build and Package .NET Framework
         id: package
