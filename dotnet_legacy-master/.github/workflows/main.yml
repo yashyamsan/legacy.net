@@ -1,0 +1,29 @@
+name: Build Web App
+ 
+on:
+  push:
+    branches:
+      - master
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+ 
+jobs:
+  build:
+ 
+    runs-on: self-hosted
+ 
+    steps:
+    - name: Configure Git
+      run:  git config --global url.'https://${{ secrets.SPECIAL_TOKEN }}:@github.com'.insteadOf 'https://github.com'
+      
+    - uses: actions/checkout@v3
+      name: Checkout Code
+       
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+     
+    - name: Restore NuGet Packages
+      run: nuget restore webapplication3.sln
+ 
+    - name: Build and Publish Web App
+      run: msbuild webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishProfileRootFolder="C:\Users\Administrator\source\repos\WebApplication3\WebApplication3\Properties\PublishProfiles\" 
