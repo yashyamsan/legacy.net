@@ -32,11 +32,8 @@ jobs:
           role-session-name: GitHub-Action-Role
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Setup .NET Framework
-        run: |
-          choco install visualstudio2017buildtools -y
-          choco install dotnet4.7-targeting-pack -y
-          choco install nuget.commandline -y
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1
 
 
       - name: Build and Package .NET Framework
