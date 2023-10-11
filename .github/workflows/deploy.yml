@@ -1,4 +1,5 @@
-name: Build and Deploy
+name: Build and Deploy .NET Framework 4.7 Application
+
 
 on:
   push:
@@ -22,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Checkout Repository
+      
+            
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -29,31 +32,25 @@ jobs:
           role-session-name: GitHub-Action-Role
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Set up .NET Framework 4.7
+        uses: actions/setup-dotnet@v2
+        with:
+            dotnet-version: 4.7
 
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.2
 
-      # - name: Set up JDK 1.8
-      #   uses: actions/setup-java@v1
-      #   with:
-      #     java-version: 1.8
-
-      # - name: chmod
-      #   run: chmod -R +x ./.github
-
-      # - name: Build and Package Maven
-      #   id: package
-      #   working-directory: ${{ env.applicationfolder }}
-      #   run: $GITHUB_WORKSPACE/.github/scripts/build.sh
+      - name: Build and Package .NET Framework
+        id: package
+        working-directory: ${{ env.applicationfolder }}
+        run: msbuild /p:Configuration=Release
 
       - name: Upload Artifact to s3
-        #working-directory: ${{ env.applicationfolder }}
-      # run: aws s3 cp dotnet_legacy-master  s3://${{ env.S3BUCKET }}/
-        run : aws s3 cp dotnet_legacy-master s3://codedeploystack-webappdeploymentbucket-1644x54in5q6g/my-folder/ --recursive
+        working-directory: ${{ env.applicationfolder }}/bin/Release
+        run: aws s3 cp *.exe s3://${{ env.S3BUCKET }}/
+
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     #environment: Dev
     permissions:
       id-token: write
