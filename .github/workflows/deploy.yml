@@ -34,7 +34,12 @@ jobs:
 
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1
-
+      
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.2
+       
+      - name: Restore NuGet Packages
+        run: nuget restore webapplication3.sln
 
       - name: Build and Package .NET Framework
         id: package
