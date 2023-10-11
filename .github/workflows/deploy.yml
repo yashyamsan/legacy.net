@@ -5,8 +5,8 @@ on:
 
 env:
   applicationfolder: spring-boot-hello-world-example
-  AWS_REGION: ##region##
-  S3BUCKET: ##s3-bucket## 
+  AWS_REGION: us-east-1
+  S3BUCKET: codedeploystack-webappdeploymentbucket-1644x54in5q6g
 
 
 jobs:
@@ -46,7 +46,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: Dev
+    #environment: Dev
     permissions:
       id-token: write
       contents: read
