@@ -33,7 +33,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Set up .NET Framework 4.7
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v1
         with:
             dotnet-version: 4.7
 
