@@ -32,10 +32,7 @@ jobs:
           role-session-name: GitHub-Action-Role
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Set up .NET Framework 4.7
-        uses: actions/setup-dotnet@v1
-        with:
-            dotnet-version: 4.7
+      
 
 
       - name: Build and Package .NET Framework
