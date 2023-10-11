@@ -47,8 +47,8 @@ jobs:
       #   run: $GITHUB_WORKSPACE/.github/scripts/build.sh
 
       - name: Upload Artifact to s3
-        working-directory: ${{ env.applicationfolder }}
-        run: aws s3 cp /Users/yamsanwy/Desktop/legacy.net/dotnet_legacy-master/ s3://${{ env.S3BUCKET }}/
+        #working-directory: ${{ env.applicationfolder }}
+        run: aws s3 cp dotnet_legacy-master  s3://${{ env.S3BUCKET }}/
         
   deploy:
     needs: build
