@@ -48,8 +48,7 @@ jobs:
       
       - name: List Directory Contents
         run: |
-          pwd
-          ls -al
+          Get-ChildItem -Path . -Recurse
         
 
       # - name: Upload Artifact to S3
