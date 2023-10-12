@@ -46,11 +46,11 @@ jobs:
         working-directory: ${{ env.applicationfolder }}
         run : msbuild /p:Configuration=Release
       
-      - name: List Directory Contents
-        run: |
-          Get-ChildItem -Path . -Recurse
       - name: Upload Artifact to S3
-        run: aws s3 cp D:\a\legacy.net\legacy.net\dotnet_legacy-master\WebApplication3\bin s3://${{ env.S3BUCKET }}/ --recursive
+        run: aws s3 cp .\WebApplication3\bin s3://${{ env.S3BUCKET }}/ --recursive
+      
+      # - name: Upload Artifact to S3
+      #   run: aws s3 cp D:\a\legacy.net\legacy.net\dotnet_legacy-master\WebApplication3\bin s3://${{ env.S3BUCKET }}/ --recursive
         
 
       # - name: Upload Artifact to S3
