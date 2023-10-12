@@ -44,11 +44,23 @@ jobs:
       - name: Build and Package .NET Framework
         id: package
         working-directory: ${{ env.applicationfolder }}
-        run: msbuild /p:Configuration=Release
+        run: msbuild webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishProfileRootFolder="C:\Users\Administrator\source\repos\WebApplication3\WebApplication3\Properties\PublishProfiles\" 
 
-      - name: Upload Artifact to s3
-        working-directory: ${{ env.applicationfolder }}
-        run: aws s3 cp *.exe s3://${{ env.S3BUCKET }}/
+      # - name: Install zip
+      #   uses: montudor/action-zip@v1  
+      
+      # - name: Zip output
+      #   working-directory: ${{ env.applicationfolder }}
+      #   run: zip -qq -r dotnet_legacy-master.zip bin/release/
+      
+      
+      # - name: Upload Artifact to s3
+      #   uses: jakejarvis/s3-sync-action@master
+      #   with:
+      #     args: --acl public-read --follow-symlinks --exclude '*' --include 'dotnet_legacy-master.zip' 
+      
+      #  # working-directory: ${{ env.applicationfolder }}/bin/Release
+      #   run: aws s3 cp *.exe s3://${{ env.S3BUCKET }}/
 
 
   deploy:
