@@ -43,8 +43,9 @@ jobs:
 
       - name: Build and Package .NET Framework
         id: package
+        working-directory: ${{ env.applicationfolder }}
         run : msbuild /p:Configuration=Release
-        # working-directory: ${{ env.applicationfolder }}
+       
         #run: msbuild webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishProfileRootFolder="C:\Users\Administrator\source\repos\WebApplication3\WebApplication3\Properties\PublishProfiles\" 
       - name: Publish .NET Framework Application
         run: |
