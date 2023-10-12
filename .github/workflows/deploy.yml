@@ -47,6 +47,7 @@ jobs:
         run : msbuild /p:Configuration=Release
       
       - name: Upload Artifact to S3
+        working-directory: ${{ env.applicationfolder }}
         run: aws s3 cp .\WebApplication3\bin s3://${{ env.S3BUCKET }}/ --recursive
       
       # - name: Upload Artifact to S3
