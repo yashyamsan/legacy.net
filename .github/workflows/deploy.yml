@@ -46,9 +46,11 @@ jobs:
         working-directory: ${{ env.applicationfolder }}
         run : msbuild /p:Configuration=Release
       
+
       - name: Upload Artifact to S3
-        working-directory: ${{ env.applicationfolder }}/bin/Release  # Adjust this path if needed
-        run: aws s3 cp . s3://${{ env.S3BUCKET }}/
+        run: aws s3 cp ${{ env.applicationfolder }}/bin/Release/ s3://${{ env.S3BUCKET }}/ --recursive
+        # working-directory: ${{ env.applicationfolder }}
+        # run: aws s3 cp . s3://${{ env.S3BUCKET }}/
       
        
         #run: msbuild webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishProfileRootFolder="C:\Users\Administrator\source\repos\WebApplication3\WebApplication3\Properties\PublishProfiles\" 
