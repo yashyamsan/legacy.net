@@ -44,12 +44,12 @@ jobs:
       - name: Build and Package .NET Framework
         id: package
         working-directory: ${{ env.applicationfolder }}
-        run : msbuild /p:Configuration=Release
-        #run: msbuild WebApplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=Fold
+        # run : msbuild /p:Configuration=Release
+        run: msbuild WebApplication3.sln /p:Configuration=Release /p:DeployOnBuild=true
       
       - name: Upload Artifact to S3
         working-directory: ${{ env.applicationfolder }}
-        run: aws s3 cp .\WebApplication3\bin\ s3://${{ vars.S3BUCKET }}/deployment/ --recursive
+        run: aws s3 cp .\WebApplication3\bin\ s3://${{ env.S3BUCKET }}/deployment/ --recursive
 
         
       # - name: Upload Artifact to S3
