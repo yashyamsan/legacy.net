@@ -44,8 +44,8 @@ jobs:
       - name: Build and Package .NET Framework
         id: package
         working-directory: ${{ env.applicationfolder }}
-        #run : msbuild /p:Configuration=Release
-        run: msbuild WebApplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
+        run : msbuild /p:Configuration=Release --no-restore
+        #run: msbuild WebApplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=Fold
       
       - name: Upload Artifact to S3
         working-directory: ${{ env.applicationfolder }}
