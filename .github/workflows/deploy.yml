@@ -43,7 +43,7 @@ jobs:
 
       - name: Build and Package .NET Framework
         id: package
-        working-directory: ${{ env.applicationfolder }}/bin/roslyn/
+        working-directory: ${{ env.applicationfolder }}
         #run : msbuild /p:Configuration=Release
         run: msbuild WebApplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile
       
