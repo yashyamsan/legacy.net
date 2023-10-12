@@ -43,9 +43,10 @@ jobs:
 
       - name: Build and Package .NET Framework
         id: package
-        working-directory: ${{ env.applicationfolder }}
-        run: msbuild webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishProfileRootFolder="C:\Users\Administrator\source\repos\WebApplication3\WebApplication3\Properties\PublishProfiles\" 
-
+        run : msbuild /p:Configuration=Release -o ./publish
+        # working-directory: ${{ env.applicationfolder }}
+        #run: msbuild webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderProfile /p:PublishProfileRootFolder="C:\Users\Administrator\source\repos\WebApplication3\WebApplication3\Properties\PublishProfiles\" 
+     
       # - name: Install zip
       #   uses: montudor/action-zip@v1  
       
