@@ -50,14 +50,14 @@ jobs:
         
       - name: Zip files
         working-directory: ${{ env.applicationfolder }}
-        run: Compress-Archive -Path .\bin\Release\Publish\*  \bin\Release\Publish\sample.zip
+        run: Compress-Archive -Path .\bin\Release\Publish\* -DestinationPath .\bin\Release\Publish\sample.zip
   
       - name: Update S3 client to use crt
         run: aws configure set default.s3.preferred_transfer_client crt
       
       - name: Upload Artifact to S3
         working-directory: ${{ env.applicationfolder }}
-        run: aws s3 cp \bin\Release\Publish\sample\ s3://${{ env.S3BUCKET }}/deployment/ --recursive
+        run: aws s3 cp .\bin\Release\Publish\sample.zip s3://${{ env.S3BUCKET }}/deployment/sample.zip
       
       
     
