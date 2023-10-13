@@ -39,19 +39,20 @@ jobs:
         uses: NuGet/setup-nuget@v1.0.2
        
       - name: Restore NuGet Packages
-        run: nuget restore dotnet_legacy-master/WebApplication3.sln
+        working-directory: ${{ env.applicationfolder }}
+        run: nuget restore WebApplication3.sln
 
       - name: Build and Package .NET Framework
         
         working-directory: ${{ env.applicationfolder }}
         # run : msbuild /p:Configuration=Release
-        run: msbuild webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=\bin\Release\Publish
+        run: msbuild Webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=\bin\Release\Publish
       
   
       
       - name: Upload Artifact to S3
         working-directory: ${{ env.applicationfolder }}
-        run: aws s3 cp .\WebApplication3\bin\Release\Publish s3://${{ env.S3BUCKET }}/deployment/ --recursive
+        run: aws s3 cp \bin\Release\Publish s3://${{ env.S3BUCKET }}/deployment/ --recursive
       
       
     
