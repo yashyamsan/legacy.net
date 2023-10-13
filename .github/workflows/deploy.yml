@@ -50,7 +50,7 @@ jobs:
         
       - name: Zip files
         working-directory: ${{ env.applicationfolder }}
-        run: Compress-Archive -Path .\bin\Release\Publish\*  \bin\Release\Publish\sample\  .\sample.zip
+        run: Compress-Archive -Path .\bin\Release\Publish\*  \bin\Release\Publish\sample.zip
   
       - name: Update S3 client to use crt
         run: aws configure set default.s3.preferred_transfer_client crt
