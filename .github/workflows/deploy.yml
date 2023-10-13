@@ -48,7 +48,8 @@ jobs:
         # run : msbuild /p:Configuration=Release
         run: msbuild Webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=\bin\Release\Publish
       
-  
+      - name: Update S3 client to use crt
+        run: aws configure set default.s3.preferred_transfer_client crt
       
       - name: Upload Artifact to S3
         working-directory: ${{ env.applicationfolder }}
