@@ -51,12 +51,12 @@ jobs:
 
       
       
-      - name: Install zip
-        uses: montudor/action-zip@v1  
+      # - name: Install zip
+      #   uses: montudor/action-zip@v1  
       
-      - name: Zip output
-        working-directory: ${{ env.applicationfolder }}
-        run: zip -qq -r dotnet_legacy-master.zip bin/release/
+      # - name: Zip output
+      #   working-directory: ${{ env.applicationfolder }}
+      #   run: zip -qq -r dotnet_legacy-master.zip bin/release/
       
       - name: Upload Artifact to S3
         working-directory: ${{ env.applicationfolder }}
