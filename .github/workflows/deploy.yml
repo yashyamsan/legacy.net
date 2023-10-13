@@ -42,34 +42,19 @@ jobs:
         run: nuget restore dotnet_legacy-master/WebApplication3.sln
 
       - name: Build and Package .NET Framework
-        id: package
+        
         working-directory: ${{ env.applicationfolder }}
         # run : msbuild /p:Configuration=Release
-        run: msbuild WebApplication3.sln /p:Configuration=Release /p:DeployOnBuild=true
+        run: msbuild webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=\bin\Release\Publish
       
-      
-
-      
-      
-      # - name: Install zip
-      #   uses: montudor/action-zip@v1  
-      
-      # - name: Zip output
-      #   working-directory: ${{ env.applicationfolder }}
-      #   run: zip -qq -r dotnet_legacy-master.zip bin/release/
+  
       
       - name: Upload Artifact to S3
         working-directory: ${{ env.applicationfolder }}
-        run: aws s3 cp .\WebApplication3\bin\Release s3://${{ env.S3BUCKET }}/deployment/ --recursive
+        run: aws s3 cp .\WebApplication3\bin\Release\Publish s3://${{ env.S3BUCKET }}/deployment/ --recursive
       
       
-      # - name: Upload Artifact to s3
-      #   uses: jakejarvis/s3-sync-action@master
-      #   with:
-      #     args: --acl public-read --follow-symlinks --exclude '*' --include 'dotnet_legacy-master.zip' 
-      
-      #  # working-directory: ${{ env.applicationfolder }}/bin/Release
-      #   run: aws s3 cp *.exe s3://${{ env.S3BUCKET }}/
+    
 
 
   deploy:
