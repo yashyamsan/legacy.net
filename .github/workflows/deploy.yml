@@ -49,7 +49,7 @@ jobs:
         run: msbuild Webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=\bin\Release\Publish
         
       - name: Zip files
-        working-directory: ${{ env.applicationfolder }}
+
         run: Compress-Archive -Path .\bin\Release\Publish\* -DestinationPath .\bin\Release\Publish\sample.zip
   
       - name: Update S3 client to use crt
