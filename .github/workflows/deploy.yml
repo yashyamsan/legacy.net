@@ -48,19 +48,9 @@ jobs:
         run: msbuild WebApplication3.sln /p:Configuration=Release /p:DeployOnBuild=true
       
       
-
-        
-      
-      - name: Install zip
-        uses: montudor/action-zip@v1  
-      
-      - name: Zip output
-        working-directory: ${{ env.applicationfolder }}
-        run: zip -qq -r dotnet_legacy-master.zip bin/release/
-      
       - name: Upload Artifact to S3
         working-directory: ${{ env.applicationfolder }}
-        run: aws s3 cp .\WebApplication3\bin\ s3://${{ env.S3BUCKET }}/deployment/ --recursive
+        run: aws s3 cp .\WebApplication3\bin\release\ s3://${{ env.S3BUCKET }}/deployment1/ --recursive
       
       
       # - name: Upload Artifact to s3
