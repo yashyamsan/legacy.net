@@ -9,7 +9,7 @@ on:
 env:
   applicationfolder: dotnet_legacy-master
   AWS_REGION: us-east-1
-  S3BUCKET: codedeploystack-webappdeploymentbucket-1644x54in5q6g
+  S3BUCKET: codedeploystack-webappdeploymentbucket-157n7dpyi3hbh
   ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
 
