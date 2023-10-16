@@ -424,7 +424,7 @@ Resources:
                        
             Set-ExecutionPolicy RemoteSigned -Force
             New-Item -Path "C:\temp" -ItemType "directory" -Force
-            Invoke-WebRequest -Uri "https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/codedeploy-agent.msi" -OutFile "C:\temp\codedeploy-agent.msi"
+            Invoke-WebRequest -Uri "https://aws-codedeploy-us-west-1.s3.amazonaws.com/latest/codedeploy-agent.msi" -OutFile "C:\temp\codedeploy-agent.msi"
             C:\temp\codedeploy-agent.msi /quiet /l C:\temp\host-agent-install-log.txt
             powershell.exe -Command Get-Service -Name codedeployagent
                        
