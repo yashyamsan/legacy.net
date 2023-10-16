@@ -50,7 +50,7 @@ jobs:
         # run : msbuild /p:Configuration=Release
         run: msbuild Webapplication3.sln /p:Configuration=Release /p:DeployOnBuild=True /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:publishUrl=\bin\Release\Publish
         
-      - name: Zip files
+      - name: Zip file
         working-directory: ${{ env.applicationfolder }}
         run: Compress-Archive -Path \bin\Release\Publish\* -Destination deployment.zip
         # run: Compress-Archive -Path \bin\Release\Publish\* -DestinationPath \bin\Release\Publish\sample.zip
@@ -88,7 +88,3 @@ jobs:
         echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
         commit_hash=`git rev-parse HEAD`
         aws deploy create-deployment --application-name CodeDeployAppNameWithASG --deployment-group-name CodeDeployGroupName --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
-    
-  # aws deploy create-deployment --application-name CodeDeployAppNameWithASG --deployment-group-name CodeDeployGroupName --s3-location bucket=${{ env.S3BUCKET }},key=deployment/sample.zip,bundleType=zip
-      # aws deploy create-deployment --application-name CodeDeployAppNameWithASG --deployment-group-name CodeDeployGroupName --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
-        
