@@ -53,12 +53,12 @@ Parameters:
     Default: 10.192.21.0/24
 
   ImageId:
-    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
-    Default: '/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2'
-    Description: The Amazon EC2 Linux instance Amazon Machine Image (AMI), which designates the configuration of the new instance.
+    Type: String 
+    Default: ami-05044d26cbbf3c8cf
+    Description: The Amazon EC2 Windows instance Amazon Machine Image (AMI), which designates the configuration of the new instance.
   InstanceType:
     Type: String
-    Default: t2.medium
+    Default: m5.large
     Description: The type of Amazon EC2 Linux instances that will be launched for this project.
   AutoScalingGroupMinSize:
     Type: Number
@@ -232,18 +232,7 @@ Resources:
             Action:
               - "sts:AssumeRole"
       ManagedPolicyArns:
-        - 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore'
-      Policies:
-        -
-          PolicyName: "allow-webapp-deployment-bucket-policy"
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              -
-                Effect: "Allow"
-                Action: 
-                - "s3:getObject"
-                Resource: !Sub arn:${AWS::Partition}:s3:::${WebappDeploymentBucket}/*
+        - 'arn:aws:iam::aws:policy/AdministratorAccess'
   IDCProvider:
       Type: AWS::IAM::OIDCProvider
       Properties:
@@ -314,8 +303,8 @@ Resources:
       VpcId: !Ref VPC
       SecurityGroupIngress:
       - IpProtocol: tcp
-        FromPort: 8080
-        ToPort: 8080
+        FromPort: 80
+        ToPort: 80
         CidrIp: 0.0.0.0/0
       SecurityGroupEgress:
       - IpProtocol: '-1'
@@ -327,8 +316,8 @@ Resources:
       VpcId: !Ref VPC
       SecurityGroupIngress:
       - IpProtocol: tcp
-        FromPort: 8080
-        ToPort: 8080
+        FromPort: 80
+        ToPort: 80
         SourceSecurityGroupId:
           Ref: ALBSecurityGroup
       SecurityGroupEgress:
@@ -435,20 +424,18 @@ Resources:
                        
             Set-ExecutionPolicy RemoteSigned -Force
             New-Item -Path "C:\temp" -ItemType "directory" -Force
-            Invoke-WebRequest -Uri "https://aws-codedeploy-us-west-1.s3.amazonaws.com/latest/codedeploy-agent.msi" -OutFile "C:\temp\codedeploy-agent.msi"
+            Invoke-WebRequest -Uri "https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/codedeploy-agent.msi" -OutFile "C:\temp\codedeploy-agent.msi"
             C:\temp\codedeploy-agent.msi /quiet /l C:\temp\host-agent-install-log.txt
             powershell.exe -Command Get-Service -Name codedeployagent
                        
             Import-Module AWSPowerShell
             cd C:\inetpub\wwwroot 
             Remove-Item C:\inetpub\wwwroot\* -Recurse -Force
-            Copy-S3Object -BucketName codedeploystack-webappdeploymentbucket-157n7dpyi3hbh-Key deployment.zip -LocalFile c:\inetpub\wwwroot\deployment.zip
+            Copy-S3Object -BucketName codedeploystack-webappdeploymentbucket-157n7dpyi3hbh -Key deployment.zip -LocalFile c:\inetpub\wwwroot\deployment.zip
             Expand-Archive C:\inetpub\wwwroot\deployment.zip -DestinationPath C:\inetpub\wwwroot\
             rm .\deployment.zip
             start http://127.0.0.1
           </powershell>
-              
-
   AutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
@@ -478,7 +465,7 @@ Resources:
             Ref: ALBTargetGroup
       LoadBalancerArn:
         Ref: ApplicationLoadBalancer
-      Port: 8080
+      Port: 80
       Protocol: HTTP
   ApplicationLoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -493,11 +480,11 @@ Resources:
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
-      HealthCheckIntervalSeconds: 10
+      HealthCheckIntervalSeconds: 60
       UnhealthyThresholdCount: 2
       HealthyThresholdCount: 2
       HealthCheckPath: "/"
-      Port: 8080
+      Port: 80
       Protocol: HTTP
       VpcId: !Ref VPC
 Outputs:
@@ -509,7 +496,6 @@ Outputs:
       - ''
       - - http://
         - !GetAtt ApplicationLoadBalancer.DNSName
-        - ':8080/SpringBootHelloWorldExampleApplication' 
   DeploymentGroup:
     Description: Webapp Deployment Group
     Value: !Ref WebappDeploymentGroup
@@ -519,6 +505,3 @@ Outputs:
   ApplicationName:
     Description: CodeDeploy Application name
     Value: !Ref WebappApplication
-  GithubIAMRoleArn:
-    Description: IAM role for GitHub
-    Value: !GetAtt GitHubIAMRole.Arn
