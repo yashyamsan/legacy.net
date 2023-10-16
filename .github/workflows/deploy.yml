@@ -70,7 +70,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: Dev
+    # environment: Dev
     permissions:
       id-token: write
       contents: read
@@ -86,7 +86,7 @@ jobs:
       # noqa: runtime-reference GITHUB_REF_SLUG
     - run: |                                             
         echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}
-        commit_hash= $(git rev-parse HEAD)
+        commit_hash=`git rev-parse HEAD`
         aws deploy create-deployment --application-name CodeDeployAppNameWithASG --deployment-group-name CodeDeployGroupName --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
     
   # aws deploy create-deployment --application-name CodeDeployAppNameWithASG --deployment-group-name CodeDeployGroupName --s3-location bucket=${{ env.S3BUCKET }},key=deployment/sample.zip,bundleType=zip
