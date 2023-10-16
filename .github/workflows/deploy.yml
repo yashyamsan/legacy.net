@@ -28,8 +28,8 @@ jobs:
 
       - uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           role-session-name: GitHub-Action-Role
           aws-region: ${{ env.AWS_REGION }}
 
@@ -51,14 +51,16 @@ jobs:
         
       - name: Zip files
         working-directory: ${{ env.applicationfolder }}
-        run: Compress-Archive -Path \bin\Release\Publish\* -DestinationPath \bin\Release\Publish\sample.zip
+        run: Compress-Archive -Path \bin\Release\Publish\* -Destination deployment.zip
+        # run: Compress-Archive -Path \bin\Release\Publish\* -DestinationPath \bin\Release\Publish\sample.zip
   
       - name: Update S3 client to use crt
         run: aws configure set default.s3.preferred_transfer_client crt
       
       - name: Upload Artifact to S3
         working-directory: ${{ env.applicationfolder }}
-        run: aws s3 cp \bin\Release\Publish\sample.zip s3://${{ env.S3BUCKET }}/deployment/sample.zip
+        run: aws s3 cp deployment.zip s3://${{ env.S3BUCKET }}/
+        # run: aws s3 cp \bin\Release\Publish\sample.zip s3://${{ env.S3BUCKET }}/deployment/sample.zip
       
       
     
@@ -80,7 +82,7 @@ jobs:
         role-session-name: GitHub-Action-Role
         aws-region: ${{ env.AWS_REGION }}
     - run: |
-        echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
+        # echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
         commit_hash=`git rev-parse HEAD`
         aws deploy create-deployment --application-name CodeDeployAppNameWithASG --deployment-group-name CodeDeployGroupName --github-location repository=$GITHUB_REPOSITORY,commitId=$commit_hash --ignore-application-stop-failures
     
