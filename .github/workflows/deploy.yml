@@ -83,7 +83,7 @@ jobs:
         # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         role-session-name: GitHub-Action-Role
         aws-region: ${{ env.AWS_REGION }}
-      # noqa: runtime-reference GITHUB_REF_SLUG
+      
     - run: |                                             
         echo "Deploying branch ${{ env.GITHUB_REF }} to ${{ github.event.inputs.environment }}"
         commit_hash=`git rev-parse HEAD`
