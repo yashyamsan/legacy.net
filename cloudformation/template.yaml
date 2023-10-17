@@ -424,14 +424,14 @@ Resources:
                        
             Set-ExecutionPolicy RemoteSigned -Force
             New-Item -Path "C:\temp" -ItemType "directory" -Force
-            Invoke-WebRequest -Uri "https://aws-codedeploy-us-west-1.s3.amazonaws.com/latest/codedeploy-agent.msi" -OutFile "C:\temp\codedeploy-agent.msi"
+            Invoke-WebRequest -Uri "https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/codedeploy-agent.msi" -OutFile "C:\temp\codedeploy-agent.msi"
             C:\temp\codedeploy-agent.msi /quiet /l C:\temp\host-agent-install-log.txt
             powershell.exe -Command Get-Service -Name codedeployagent
                        
             Import-Module AWSPowerShell
             cd C:\inetpub\wwwroot 
             Remove-Item C:\inetpub\wwwroot\* -Recurse -Force
-            Copy-S3Object -BucketName codedeploystack-webappdeploymentbucket-157n7dpyi3hbh -Key deployment.zip -LocalFile c:\inetpub\wwwroot\deployment.zip
+            Copy-S3Object -BucketName codedeploy-1234 -Key deployment.zip -LocalFile c:\inetpub\wwwroot\deployment.zip
             Expand-Archive C:\inetpub\wwwroot\deployment.zip -DestinationPath C:\inetpub\wwwroot\
             rm .\deployment.zip
             start http://127.0.0.1
@@ -505,3 +505,6 @@ Outputs:
   ApplicationName:
     Description: CodeDeploy Application name
     Value: !Ref WebappApplication
+  GithubIAMRoleArn:
+    Description: IAM role for GitHub
+    Value: !GetAtt GitHubIAMRole.Arn
