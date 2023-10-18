@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  applicationfolder: dotnet_legacy-master
+  applicationfolder: dotNetLegacy
   AWS_REGION: us-west-2
   S3BUCKET: codedeploy-1234
   ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
