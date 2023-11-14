@@ -55,9 +55,9 @@ jobs:
       - name: Update S3 client to use crt
         run: aws configure set default.s3.preferred_transfer_client crt
       
-      - name: Upload Artifact to S3
-        working-directory: ${{ env.applicationfolder }}
-        run: aws s3 cp deployment.zip s3://${{ env.S3BUCKET }}/
+      # - name: Upload Artifact to S3
+      #   working-directory: ${{ env.applicationfolder }}
+      #   run: aws s3 cp deployment.zip s3://${{ env.S3BUCKET }}/
         
       
     
